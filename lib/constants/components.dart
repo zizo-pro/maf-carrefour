@@ -3,13 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:maf_carrefour/constants/colors.dart';
+import 'package:maf_carrefour/modules/login_screen/cubit/login_cubit.dart';
 
 Widget defaultbutton(
         {double width = double.infinity,
         Color background = Colors.blue,
         required VoidCallback function,
         required String text,
-        double? fontsiz=12,
+        double? fontsiz = 12,
         BoxDecoration decoration = const BoxDecoration()}) =>
     Container(
       width: width,
@@ -22,7 +23,7 @@ Widget defaultbutton(
         onPressed: function,
         child: Text(
           text,
-          style:  TextStyle(
+          style: TextStyle(
             color: Colors.white,
             fontSize: fontsiz,
           ),
@@ -40,48 +41,92 @@ Widget defaultTextFormField({
   IconData? suffixIcon,
 }) {
   return TextFormField(
-
     keyboardType: type,
     controller: controller,
     validator: validate,
     onChanged: onChange,
     onTap: onTap,
-    decoration:  InputDecoration(
-      suffixIcon: Icon(suffixIcon,size: 24,color:Colors.black),
-      
-      filled: true,
-      fillColor: Colors.grey[100],
+    decoration: InputDecoration(
+        suffixIcon: Icon(suffixIcon, size: 24, color: Colors.black),
+        filled: true,
+        fillColor: Colors.grey[100],
         hintText: hintText,
-        hintStyle:const TextStyle(
+        hintStyle: const TextStyle(
           color: MyColors.weirdBlueColor,
         ),
         enabledBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: MyColors.weirdBlueColor, width: 1))),
   );
 }
+
+Widget passwordFormField({
+  required TextEditingController controller,
+  Function(String?)? onSubmit,
+  Function(String?)? onChange,
+  VoidCallback? onTap,
+  bool isPassword = false,
+  required String? Function(String?)? validate,
+  required String label,
+  IconData suffix = Icons.visibility,
+  VoidCallback? suffixPressed,
+  bool isClickable = true,
+}) =>
+    TextFormField(
+      controller: controller,
+      keyboardType: TextInputType.visiblePassword,
+      obscureText: isPassword,
+      enabled: isClickable,
+      onFieldSubmitted: onSubmit,
+      onChanged: onChange,
+      onTap: onTap,
+      validator: validate,
+      decoration: InputDecoration(
+        labelStyle: const TextStyle(color: Colors.black),
+        hintText: label,
+                filled: true,
+        fillColor: Colors.grey[100],
+        hintStyle: const TextStyle(
+          color: MyColors.weirdBlueColor,
+        ),
+        suffix: InkWell(child: Icon(suffix),onTap: suffixPressed,), 
+        enabledBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(color: MyColors.weirdBlueColor, width: 1)),
+      ),
+    );
+
+
+
 Widget passwordTextFormField({
   required String? Function(String?)? validate,
   Function(String?)? onChange,
   required String hintText,
   required TextEditingController controller,
   Function()? onTap,
-  required TextInputType type,
-  
+  Function()? onSuffixTap,
+  bool isPassword = false,
+  required BuildContext context,
 }) {
   return TextFormField(
-
-    keyboardType: type,
+    keyboardType: TextInputType.visiblePassword,
     controller: controller,
     validator: validate,
     onChanged: onChange,
     onTap: onTap,
-    decoration:  InputDecoration(
-      suffix: IconButton(icon: Icon(Icons.remove_red_eye_outlined),onPressed: (){},iconSize: 24,color: Colors.black,padding: const EdgeInsets.all(0)),
-      
-      filled: true,
-      fillColor: Colors.grey[100],
+    obscureText: isPassword,
+    decoration: InputDecoration(
+        suffix: InkWell(
+            onTap: () {
+              LoginCubit.get(context).changePassowordVisibility();
+            },
+            child: const Icon(
+              Icons.remove_red_eye_outlined,
+              size: 24,
+              color: Colors.black,
+            )),
+        filled: true,
+        fillColor: Colors.grey[100],
         hintText: hintText,
-        hintStyle:const TextStyle(
+        hintStyle: const TextStyle(
           color: MyColors.weirdBlueColor,
         ),
         enabledBorder: const UnderlineInputBorder(

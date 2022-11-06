@@ -37,6 +37,7 @@ class LoginScreen extends StatelessWidget {
                               color: MyColors.weirdBlueColor,
                               fontWeight: FontWeight.bold,
                               fontSize: 20)),
+                      const SizedBox(height: 40),
                       defaultTextFormField(
                         type: TextInputType.emailAddress,
                         validate: (value) {
