@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "114786248598",
+    "project_id": "maf-carrefour-c49d8",
+    "storage_bucket": "maf-carrefour-c49d8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:114786248598:android:626e20734c19bdb04b5fb7",
+        "android_client_info": {
+          "package_name": "com.example.maf_carrefour"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "114786248598-g17tbq8jpbih34b2k1f261009q7p1tpd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvxoaTgD6EgCQC0haGW69i5yVOlNEdYUg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "114786248598-g17tbq8jpbih34b2k1f261009q7p1tpd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

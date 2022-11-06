@@ -1,0 +1,199 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maf_carrefour/constants/colors.dart';
+import 'package:maf_carrefour/constants/components.dart';
+import 'package:maf_carrefour/modules/login_screen/cubit/login_cubit.dart';
+import 'package:maf_carrefour/modules/login_screen/cubit/login_states.dart';
+import 'package:intl/intl.dart';
+
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<LoginCubit, LoginStates>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          var firstNameController = TextEditingController();
+          var lastNameController = TextEditingController();
+          var phoneNumberController = TextEditingController();
+          var emailAddressController = TextEditingController();
+          var passwordController = TextEditingController();
+          var dateOfBirthController = TextEditingController();
+          var nationalityController = TextEditingController();
+          var cubit = LoginCubit.get(context);
+          return Scaffold(
+              appBar: AppBar(),
+              body: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Create new Account",
+                        style: TextStyle(
+                            fontSize: 22,
+                            color: MyColors.facbookColor,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Radio<int>(
+                                    value: 0,
+                                    groupValue: cubit.groupValue,
+                                    onChanged: (int? value) {
+                                      cubit.justEmit(value as int);
+                                    }),
+                                const Text("Mr.")
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Radio<int>(
+                                    value: 1,
+                                    groupValue: cubit.groupValue,
+                                    onChanged: (int? value) {
+                                      cubit.justEmit(value as int);
+                                    }),
+                                const Text("Mrs.")
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Radio<int>(
+                                    value: 2,
+                                    groupValue: cubit.groupValue,
+                                    onChanged: (int? value) {
+                                      cubit.justEmit(value as int);
+                                    }),
+                                const Text("Mrs.")
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      defaultTextFormField(
+                        type: TextInputType.name,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return "Please enter your first name";
+                            } else {
+                              return null;
+                            }
+                          },
+                          hintText: "First Name",
+                          controller: firstNameController),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      defaultTextFormField(
+                        type: TextInputType.name,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return "Please enter your last name";
+                            } else {
+                              return null;
+                            }
+                          },
+                          hintText: "Last Name",
+                          controller: lastNameController),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      defaultTextFormField(
+                        type: TextInputType.phone,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return "Please enter a mobile number";
+                            } else {
+                              return null;
+                            }
+                          },
+                          hintText: "Mobile Number",
+                          controller: phoneNumberController),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      defaultTextFormField(
+                        type: TextInputType.emailAddress,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return "Please enter an email address";
+                            } else {
+                              return null;
+                            }
+                          },
+                          hintText: "Email Address",
+                          controller: emailAddressController),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      passwordTextFormField(
+                        type: TextInputType.visiblePassword,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return "Weak password. minimum of 8 characters with: at least 1 uppercase, 1 lowercase. and 1 number";
+                            } else {
+                              return null;
+                            }
+                          },
+                          hintText: "Password",
+                          controller: passwordController),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      defaultTextFormField(
+                        type: TextInputType.datetime,
+                        suffixIcon: Icons.keyboard_arrow_down,
+                          onTap: () {
+                            showDatePicker(
+                              context: context,
+                              firstDate: DateTime.parse('1920-01-01'),
+                              initialDate: DateTime.now(),
+                              lastDate: DateTime.now(),
+                            ).then((value) => dateOfBirthController.text = DateFormat.yMMMd().format(value!));
+                          },
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return null;
+                            } else {
+                              return null;
+                            }
+                          },
+                          hintText: "Date of birth",
+                          controller: dateOfBirthController),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      defaultTextFormField(
+                        type: TextInputType.text,
+                        suffixIcon: Icons.keyboard_arrow_down,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return null;
+                            } else {
+                              return null;
+                            }
+                          },
+                          hintText: "Nationality",
+                          controller: nationalityController),
+                          const SizedBox(height: 25,),
+                          defaultbutton(function: (){}, text: "REGISTER",fontsiz: 16),
+                          const SizedBox(height: 20,),
+                          const Text("By proceeding you accept the terms & conditions",style: TextStyle(fontSize: 10),)
+                    ],
+                  ),
+                ),
+              ));
+        });
+  }
+}
