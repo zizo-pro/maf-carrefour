@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:maf_carrefour/constants/colors.dart';
 import 'package:maf_carrefour/constants/components.dart';
 import 'package:maf_carrefour/models/user_model.dart';
@@ -64,7 +65,7 @@ class LoginCubit extends Cubit<LoginStates> {
           nationality: nationality,
           phone: phone,
           uId: value.user!.uid);
-      CacheHelper.saveData(key:'uId',value:value.user!.uid);
+      CacheHelper.saveData(key: 'uId', value: value.user!.uid);
       emit(LoginSocialRegisterSuccessState());
     }).catchError((error) {
       print(error.toString());
@@ -103,6 +104,41 @@ class LoginCubit extends Cubit<LoginStates> {
     });
   }
 
-  void loginTest(){
+  Future<UserCredential> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  List<String> users = [];
+  List<String> usersemail = [];
+  void getAllUsers() {
+    users = [];
+    emit(LoginSocialGetUsersLoadingState());
+    FirebaseFirestore.instance.collection('users').get().then((value) {
+      for (var element in value.docs) {
+        users.add(element.data()['uId']);
+        usersemail.add(element.data()['email']);
+      }
+      emit(LoginSocialGetUsersSuccessState());
+    }).catchError((error) {
+      print(error);
+      emit(LoginSocialGetUsersErrorState());
+    });
+  }
+
+  void userLogin({required String email, required String password}) {
+    FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((value) {
+      emit(LoginSocialUserLoginSuccessState(uid:value.user!.uid));
+    }).catchError((error) {
+      emit(LoginSocialUserLoginErrorState());
+      print(error.toString());
+    });
   }
 }

@@ -70,6 +70,7 @@ Widget passwordFormField({
   IconData suffix = Icons.visibility,
   VoidCallback? suffixPressed,
   bool isClickable = true,
+  required color,
 }) =>
     TextFormField(
       controller: controller,
@@ -83,29 +84,32 @@ Widget passwordFormField({
       decoration: InputDecoration(
         labelStyle: const TextStyle(color: Colors.black),
         hintText: label,
-                filled: true,
+        filled: true,
         fillColor: Colors.grey[100],
-        hintStyle: const TextStyle(
-          color: MyColors.weirdBlueColor,
+        hintStyle: TextStyle(
+          color: color,
         ),
-        suffix: InkWell(child: Icon(suffix),onTap: suffixPressed,), 
-        enabledBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: MyColors.weirdBlueColor, width: 1)),
+        suffix: InkWell(
+          onTap: suffixPressed,
+          child: Icon(suffix),
+        ),
+        enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: color, width: 1)),
+        focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: color, width: 1)),
       ),
     );
 
-
-
-Widget passwordTextFormField({
-  required String? Function(String?)? validate,
-  Function(String?)? onChange,
-  required String hintText,
-  required TextEditingController controller,
-  Function()? onTap,
-  Function()? onSuffixTap,
-  bool isPassword = false,
-  required BuildContext context,
-}) {
+Widget passwordTextFormField(
+    {required String? Function(String?)? validate,
+    Function(String?)? onChange,
+    required String hintText,
+    required TextEditingController controller,
+    Function()? onTap,
+    Function()? onSuffixTap,
+    bool isPassword = false,
+    required BuildContext context,
+    Color color = MyColors.weirdBlueColor}) {
   return TextFormField(
     keyboardType: TextInputType.visiblePassword,
     controller: controller,
@@ -126,11 +130,11 @@ Widget passwordTextFormField({
         filled: true,
         fillColor: Colors.grey[100],
         hintText: hintText,
-        hintStyle: const TextStyle(
-          color: MyColors.weirdBlueColor,
+        hintStyle: TextStyle(
+          color: color,
         ),
-        enabledBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: MyColors.weirdBlueColor, width: 1))),
+        enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: color, width: 1))),
   );
 }
 

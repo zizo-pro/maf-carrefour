@@ -7,5 +7,6 @@ class MyColors {
   static const containerCategoriesBackGroundColor = Color.fromARGB(255, 245, 245, 245);
   static const weirdBlueColor = Color.fromARGB(255, 14, 89, 165);
   static const facbookColor = Color.fromARGB(255, 66, 103, 178);
+  static const passwordColor = Color.fromARGB(255, 125, 15, 52);
 
 }

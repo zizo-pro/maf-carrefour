@@ -130,10 +130,13 @@ class RegisterScreen extends StatelessWidget {
                         defaultTextFormField(
                             type: TextInputType.emailAddress,
                             validate: (value) {
+                              if (cubit.usersemail.contains(value)) {
+                                return "Email is already used";
+                              }
                               if (value!.contains("@")) {
                                 return null;
                               } else {
-                                return "Please enter an email address";
+                                return "Invalid Email Address";
                               }
                             },
                             hintText: "Email Address",
@@ -153,7 +156,8 @@ class RegisterScreen extends StatelessWidget {
                               return null;
                             },
                             label: "Password",
-                            controller: passwordController),
+                            controller: passwordController,
+                            color: MyColors.weirdBlueColor),
                         const SizedBox(
                           height: 15,
                         ),
@@ -207,7 +211,7 @@ class RegisterScreen extends StatelessWidget {
                                     password: passwordController.text,
                                     dateOfBirth: dateOfBirthController.text,
                                     nationality: nationalityController.text);
-                                navigateAndFinish(context,const HomeLayout());
+                                navigateAndFinish(context, const HomeLayout());
                               }
                             },
                             text: "REGISTER",
