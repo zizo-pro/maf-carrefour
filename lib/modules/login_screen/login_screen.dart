@@ -23,8 +23,12 @@ class LoginScreen extends StatelessWidget {
       if (state is LoginSocialUserLoginSuccessState) {
         CacheHelper.saveData(key: 'uId', value: state.uid).then((value) {
           uId = state.uid;
+          print("lol this is output");
+          print(state.uid);
           navigateAndFinish(context, const HomeLayout());
         });
+      } else if (state is LoginSocialUserLoginErrorState) {
+        showToast(msg: "Please check your password", state: ToastStates.ERROR);
       }
     }, builder: (context, state) {
       var cubit = LoginCubit.get(context);
@@ -120,7 +124,11 @@ class LoginScreen extends StatelessWidget {
                           backgroundColor: Colors.white, elevation: 10),
                       onPressed: () {
                         cubit.signInWithGoogle().then((value) {
-                          
+                          CacheHelper.saveData(
+                                  key: "uId", value: value.user!.uid)
+                              .then((valu) {
+                            uId = value.user!.uid;
+                          });
                           if (cubit.users.contains(value.user!.uid)) {
                             navigateAndFinish(context, const HomeLayout());
                           } else {

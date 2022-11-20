@@ -20,6 +20,7 @@ void main() async {
   Widget widget;
 
   uId = CacheHelper.getData(key: 'uId');
+  print(uId);
   if (uId != null) {
     widget = const HomeLayout();
   } else {
@@ -27,12 +28,14 @@ void main() async {
   }
 
   BlocOverrides.runZoned(() {
-    runApp( MyApp(startWidget: widget,));
+    runApp(MyApp(
+      startWidget: widget,
+    ));
   }, blocObserver: MyBlocObserver());
 }
 
 class MyApp extends StatelessWidget {
-    final Widget? startWidget;
+  final Widget? startWidget;
   const MyApp({
     Key? key,
     this.startWidget,
@@ -44,7 +47,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => AppCubit(),
+          create: (context) => AppCubit()..getProducts()..getCart(),
         ),
         BlocProvider(
           create: (context) => LoginCubit()..getAllUsers(),
